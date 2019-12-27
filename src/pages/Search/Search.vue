@@ -1,15 +1,17 @@
 <template>
   <div>
-    app
+    Search
   </div>
 </template>
 
 <script type="text/javascript">
 export default {
   data () {
-    return {}
+    return {
+
+    }
   }
 }
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" rel="stylesheet/stylus" scoped></style>

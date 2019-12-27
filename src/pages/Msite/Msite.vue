@@ -1,6 +1,6 @@
 <template>
   <div>
-    app
+    Msite
   </div>
 </template>
 
@@ -12,4 +12,4 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" rel="stylesheet/stylus" scoped></style>
