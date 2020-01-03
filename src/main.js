@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'swiper/dist/css/swiper.css'
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-
-Vue.use(VueAwesomeSwiper)
+import store from './store'
+import 'swiper/css/swiper.css'
 
 // eslint-disable-next-line no-new
 new Vue({
   el: '#app',
   render: h => h(App),
-  router
+  router, // 使用上vue-router
+  store // 使用上store
 })

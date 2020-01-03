@@ -3,9 +3,9 @@
     <section class="profile">
       <HeaderTop title="我的"></HeaderTop>
       <section class="profile-number">
-        <a href="javascript:" class="profile-link">
+        <router-link to="/login" class="profile-link">
           <div class="profile_image">
-            <i class="iconfont icon-person"></i>
+            <i class="iconfont icon-denglutouxiang"></i>
           </div>
           <div class="user-info">
             <p class="user-info-top">登录/注册</p>
@@ -19,7 +19,7 @@
           <span class="arrow">
             <i class="iconfont icon-jiantou1"></i>
           </span>
-        </a>
+        </router-link>
       </section>
       <section class="profile_info_data border-1px">
         <ul class="info_data_list">
@@ -41,36 +41,36 @@
         <!-- 我的订单 -->
         <a href="javascript:" class="my_order">
           <span>
-            <i class="iconfont icon-order-s"></i>
+            <i class="iconfont icon-order"></i>
           </span>
           <div class="my_order_div">
             <span>我的订单</span>
             <span class="my_order_icon">
-              <i class="iconfont icon-jiantou1"></i>
+              <i class="iconfont icon-arrow-right"></i>
             </span>
           </div>
         </a>
         <!-- 积分商城 -->
         <a href="javascript:" class="my_order">
           <span>
-            <i class="iconfont icon-jifen"></i>
+            <i class="iconfont icon-xing"></i>
           </span>
           <div class="my_order_div">
             <span>积分商城</span>
             <span class="my_order_icon">
-              <i class="iconfont icon-jiantou1"></i>
+              <i class="iconfont icon-arrow-right"></i>
             </span>
           </div>
         </a>
         <!-- 硅谷外卖会员卡 -->
         <a href="javascript:" class="my_order">
           <span>
-            <i class="iconfont icon-vip"></i>
+            <i class="iconfont icon-viptubiao"></i>
           </span>
           <div class="my_order_div">
-            <span>硅谷外卖会员卡</span>
+            <span> 硅谷外卖会员卡</span>
             <span class="my_order_icon">
-              <i class="iconfont icon-jiantou1"></i>
+              <i class="iconfont icon-arrow-right"></i>
             </span>
           </div>
         </a>
@@ -79,12 +79,12 @@
         <!-- 服务中心 -->
         <a href="javascript:" class="my_order">
           <span>
-            <i class="iconfont icon-fuwu"></i>
+            <i class="iconfont icon-ux13996233936548274"></i>
           </span>
           <div class="my_order_div">
             <span>服务中心</span>
             <span class="my_order_icon">
-              <i class="iconfont icon-jiantou1"></i>
+              <i class="iconfont icon-arrow-right"></i>
             </span>
           </div>
         </a>
@@ -94,10 +94,10 @@
 </template>
 
 <script type="text/javascript">
-import HeaderTop from "../../components/HeaderTop/HeaderTop"
+import HeaderTop from '../../components/HeaderTop/HeaderTop'
 export default {
   components: { HeaderTop },
-  data() {
+  data () {
     return {}
   }
 }
@@ -107,6 +107,7 @@ export default {
 @import '../../common/stylus/mixins.styl'
 .profile
   width 100%
+  overflow hidden
   .header
     background-color #02a774
     position fixed
