@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="login_content">
-        <form>
+        <form @submit.prevent="login">
           <div :class="{ on: loginWay }">
             <section class="login_message">
               <input
@@ -40,7 +40,7 @@
               </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码" />
+              <input type="tel" maxlength="8" v-model="code" placeholder="验证码" />
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -54,6 +54,7 @@
                   type="tel"
                   maxlength="11"
                   placeholder="手机/邮箱/用户名"
+                  v-model="name"
                 />
               </section>
               <section class="login_verification">
@@ -81,11 +82,12 @@
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码" />
+                <input type="text" maxlength="11" placeholder="验证码" v-model="captcha"/>
                 <img
                   class="get_verification"
-                  src="./images/captcha.svg"
+                  src="http://localhost:4000/captcha"
                   alt="captcha"
+                  @click="getCaptcha"
                 />
               </section>
             </section>
@@ -98,44 +100,93 @@
         <i class="iconfont icon-jiantouzuo"></i>
       </a>
     </div>
+    <AlertTip :alertText="alertText" @closeTip="closeTip" v-show="alertShow"/>
   </section>
 </template>
 
 <script type="text/javascript">
+import AlertTip from '../../components/AlertTip/AlertTip'
 export default {
-  data() {
+  components: {AlertTip},
+  data () {
     return {
       loginWay: true, // 默认短信登录
-      phone: "",
+      phone: '',
       computedTime: 0, // 倒计时数字
       showPwd: false, // 是否显示密码
-      password: ""
-    };
+      password: '', // 用户密码
+      code: '', // 手机验证码
+      name: '', // 用户名
+      captcha: '', // 用户验证码
+      alertText: '', // 提示文字
+      alertShow: false // 是否显示提示框
+    }
   },
   computed: {
-    rightPhone() {
-      return /^1\d{10}$/.test(this.phone);
+    rightPhone () {
+      return /^1\d{10}$/.test(this.phone)
     }
   },
   methods: {
-    getCode() {
+    getCode () {
       if (this.computedTime === 0) {
         // 倒计时
-        this.computedTime = 30;
+        this.computedTime = 30
         const intervalId = setInterval(() => {
-          this.computedTime--;
+          this.computedTime--
           if (this.computedTime === 0) {
-            clearInterval(intervalId);
+            clearInterval(intervalId)
           }
-        }, 1000);
+        }, 1000)
         // 获取验证码
       }
+    },
+    showAlert (alertText) {
+      this.alertShow = true
+      this.alertText = alertText
+    },
+    // 关闭提示框
+    closeTip () {
+      this.alertShow = false
+      this.alertText = ''
+    },
+    // 登录
+    login () {
+      let {loginWay} = this
+      if (loginWay) { // 手机短信登录
+        let {phone, code} = this
+        if (!phone) {
+          // 手机号不能为空
+          this.showAlert('手机号不能为空')
+        } else if (!code) {
+          // 验证码不能为空
+          this.showAlert('验证码不能为空')
+        }
+      } else {
+        let {name, password, captcha} = this
+        if (!name) {
+          // 用户名不能为空
+          this.showAlert('用户名不能为空')
+        } else if (!password) {
+          // 密码不能为空
+          this.showAlert('密码不能为空')
+        } else if (!captcha) {
+          // 验证码不能为空
+          this.showAlert('验证码不能为空')
+        }
+      }
+    },
+    // 获取图形验证码
+    getCaptcha (event) {
+      event.target.src = 'http://localhost:4000/captcha?time=' + Date.now()
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+*
+  touch-action pan-y
 .loginContainer
     width 100%
     height 100%
