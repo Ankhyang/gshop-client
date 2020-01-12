@@ -3,17 +3,23 @@
     <section class="profile">
       <HeaderTop title="我的"></HeaderTop>
       <section class="profile-number">
-        <router-link to="/login" class="profile-link">
+        <router-link
+          :to="userInfo._id ? '/userInfo':'/login'"
+          class="profile-link"
+        >
           <div class="profile_image">
             <i class="iconfont icon-denglutouxiang"></i>
           </div>
           <div class="user-info">
-            <p class="user-info-top">登录/注册</p>
+            <p
+              class="user-info-top"
+              v-if="!userInfo.phone"
+            >{{userInfo.name || '登录/注册'}}</p>
             <p>
               <span class="user-icon">
                 <i class="iconfont icon-shouji icon-mobile"></i>
               </span>
-              <span class="icon-mobile-number">暂无绑定手机号</span>
+              <span class="icon-mobile-number">{{userInfo.phone || '暂无绑定手机号'}}</span>
             </p>
           </div>
           <span class="arrow">
@@ -23,15 +29,24 @@
       </section>
       <section class="profile_info_data border-1px">
         <ul class="info_data_list">
-          <a href="javascript:" class="info_data_link">
+          <a
+            href="javascript:"
+            class="info_data_link"
+          >
             <span class="info_data_top"><span>0.00</span>元</span>
             <span class="info_data_bottom">我的余额</span>
           </a>
-          <a href="javascript:" class="info_data_link">
+          <a
+            href="javascript:"
+            class="info_data_link"
+          >
             <span class="info_data_top"><span>0</span>个</span>
             <span class="info_data_bottom">我的优惠</span>
           </a>
-          <a href="javascript:" class="info_data_link">
+          <a
+            href="javascript:"
+            class="info_data_link"
+          >
             <span class="info_data_top"><span>0</span>分</span>
             <span class="info_data_bottom">我的积分</span>
           </a>
@@ -39,7 +54,10 @@
       </section>
       <section class="profile_my_order border-1px">
         <!-- 我的订单 -->
-        <a href="javascript:" class="my_order">
+        <a
+          href="javascript:"
+          class="my_order"
+        >
           <span>
             <i class="iconfont icon-order"></i>
           </span>
@@ -51,7 +69,10 @@
           </div>
         </a>
         <!-- 积分商城 -->
-        <a href="javascript:" class="my_order">
+        <a
+          href="javascript:"
+          class="my_order"
+        >
           <span>
             <i class="iconfont icon-xing"></i>
           </span>
@@ -63,7 +84,10 @@
           </div>
         </a>
         <!-- 硅谷外卖会员卡 -->
-        <a href="javascript:" class="my_order">
+        <a
+          href="javascript:"
+          class="my_order"
+        >
           <span>
             <i class="iconfont icon-viptubiao"></i>
           </span>
@@ -77,7 +101,10 @@
       </section>
       <section class="profile_my_order border-1px">
         <!-- 服务中心 -->
-        <a href="javascript:" class="my_order">
+        <a
+          href="javascript:"
+          class="my_order"
+        >
           <span>
             <i class="iconfont icon-ux13996233936548274"></i>
           </span>
@@ -89,16 +116,33 @@
           </div>
         </a>
       </section>
+      <section class="profile_my_order border-1px" v-show="userInfo._id">
+        <mt-button type="danger" style="width:100%" @click="logout">退出登录</mt-button>
+      </section>
     </section>
   </div>
 </template>
 
 <script type="text/javascript">
 import HeaderTop from '../../components/HeaderTop/HeaderTop'
+import { mapState } from 'vuex'
+import {MessageBox} from 'mint-ui'
 export default {
   components: { HeaderTop },
   data () {
     return {}
+  },
+  computed: {
+    ...mapState(['userInfo'])
+  },
+  methods: {
+    logout () {
+      MessageBox.confirm('确定退出登录吗？').then(action => {
+        this.$store.dispatch('logout')
+      }).catch(() => {
+        console.log('点击了取消')
+      })
+    }
   }
 }
 </script>
@@ -170,7 +214,7 @@ export default {
         margin-top 8px
         margin-left 15px
         p
-          font-weight: 700
+          font-weight 700
           font-size 18px
           color #fff
           &.user-info-top
