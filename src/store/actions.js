@@ -19,7 +19,9 @@ import {
 	REST_USER_INFO,
 	RECEIVE_SHOP_INFO,
 	RECEIVE_SHOP_GOODS,
-	RECEIVE_SHOP_RATINGS
+	RECEIVE_SHOP_RATINGS,
+	INCREMENT_FOOD_COUNT,
+	DECREMENT_FOOD_COUNT
 } from './mutation-type'
 
 export default {
@@ -87,11 +89,12 @@ export default {
 		}
 	},
 
-	async getShopGoods({ commit }) {
+	async getShopGoods({ commit }, callback) {
 		const result = await reqShopGoods()
 		const { code, data } = result.data
 		if (code === 0) {
 			commit(RECEIVE_SHOP_GOODS, { data })
+			callback && callback()
 		}
 	},
 
@@ -100,6 +103,14 @@ export default {
 		const { code, data } = result.data
 		if (code === 0) {
 			commit(RECEIVE_SHOP_RATINGS, { data })
+		}
+	},
+	// 修改food的count
+	updateFoodCount({ commit }, { isAdd, food }) {
+		if (isAdd) {
+			commit(INCREMENT_FOOD_COUNT, { food })
+		} else {
+			commit(DECREMENT_FOOD_COUNT, { food })
 		}
 	}
 }
