@@ -4,7 +4,7 @@
       <div
         class="iconfont icon-jianhao"
         v-if="food.count"
-        @click="updateFoodCount(false)"
+        @click.stop="updateFoodCount(false)"
       ></div>
     </transition>
     <div
@@ -13,7 +13,7 @@
     >{{food.count}}</div>
     <div
       class="iconfont icon-jiahao"
-      @click="updateFoodCount(true)"
+      @click.stop="updateFoodCount(true)"
     ></div>
   </div>
 </template>
@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus" scoped>
+<style lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixins.styl'
 
 .cartcontrol
@@ -52,12 +52,12 @@ export default {
     font-size 24px
     color rgb(0, 160, 220)
 
-  .icon-remove_circle_outline
+  .icon-jianhao
     display inline-block
     padding 6px
     line-height 24px
     font-size 24px
-    color $green
+    color red
 
     &.move-enter-active, &.move-leave-active
       transition all 0.3s
@@ -76,10 +76,10 @@ export default {
     font-size 10px
     color rgb(147, 153, 159)
 
-  .icon-add_circle
+  .icon-jiahao
     display inline-block
     padding 6px
     line-height 24px
     font-size 24px
-    color $green
+    color red
 </style>

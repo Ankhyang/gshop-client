@@ -37,6 +37,7 @@
               <li
                 class="food-item bottom-border-1px"
                 v-for="(subItem, index) in item.foods"
+                @click="getFoodInfo(subItem)"
                 :key="index"
               >
                 <div class="icon">
@@ -69,6 +70,11 @@
           </li>
         </ul>
       </div>
+      <Food
+        :food="food"
+        ref="food"
+      />
+      <ShopCart />
     </div>
   </div>
 </template>
@@ -76,15 +82,18 @@
 <script>
 import { mapState } from 'vuex'
 import CartControl from '../../../components/CartControl/CartControl'
+import ShopCart from '../../../components/ShopCart/ShopCart'
+import Food from '../../../components/Food/Food'
 import BScroll from 'better-scroll'
 export default {
   data () {
     return {
       scrollY: 0,
-      tops: []
+      tops: [],
+      food: {}
     }
   },
-  components: { CartControl },
+  components: { CartControl, Food, ShopCart },
   mounted () {
     this.$store.dispatch('getShopGoods', () => {
       this.$nextTick(() => {
@@ -150,6 +159,10 @@ export default {
       this.scrollY = scrollY
       // 平滑滚动到右侧列表
       this.foodsScroll.scrollTo(0, -scrollY, 500)
+    },
+    getFoodInfo (item) {
+      this.food = item
+      this.$refs.food.toggleShow()
     }
   }
 }
