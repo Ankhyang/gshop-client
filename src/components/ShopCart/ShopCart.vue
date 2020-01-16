@@ -1,3 +1,5 @@
+/* eslint-disable no-new */
+/* eslint-disable no-new */
 /* eslint-disable vue/no-side-effects-in-computed-properties */
 /* eslint-disable vue/no-side-effects-in-computed-properties */
 <template>
@@ -34,34 +36,36 @@
           > {{payText}} </div>
         </div>
       </div>
-      <div
-        class="shopcart-list"
-        v-show="listShow"
-      >
-        <div class="list-header">
-          <h1 class="title">购物车</h1> <span
-            class="empty"
-            @click.prevent="clearCartFoods"
-          >清空</span>
-        </div>
-        <div class="list-content">
-          <ul>
-            <li
-              class="food"
-              v-for="(food, index) in cartFoods"
-              :key="index"
-            >
-              <span class="name">{{food.name}}</span>
-              <div class="price"><span>￥{{food.price}}</span></div>
-              <div class="cartcontrol-wrapper">
-                <div class="cartcontrol">
-                  <CartControl :food="food" />
+      <transition name="move">
+        <div
+          class="shopcart-list"
+          v-show="listShow"
+        >
+          <div class="list-header">
+            <h1 class="title">购物车</h1> <span
+              class="empty"
+              @click.prevent="clearCartFoods"
+            >清空</span>
+          </div>
+          <div class="list-content">
+            <ul>
+              <li
+                class="food"
+                v-for="(food, index) in cartFoods"
+                :key="index"
+              >
+                <span class="name">{{food.name}}</span>
+                <div class="price"><span>￥{{food.price}}</span></div>
+                <div class="cartcontrol-wrapper">
+                  <div class="cartcontrol">
+                    <CartControl :food="food" />
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
     <div
       class="list-mask"
@@ -73,7 +77,9 @@
 
 <script>
 import CartControl from '../CartControl/CartControl'
+import BScroll from 'better-scroll'
 import { mapState, mapGetters } from 'vuex'
+import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
@@ -108,6 +114,11 @@ export default {
         this.isShow = false
         return false
       }
+      if (this.isShow === true) {
+        this.$nextTick(() => {
+          this._initScroll()
+        })
+      }
       return this.isShow
     }
   },
@@ -118,7 +129,23 @@ export default {
       }
     },
     clearCartFoods () {
-
+      // 提示
+      MessageBox.confirm('确定清空购物车吗？').then(() => {
+        // 再删除
+        this.$store.dispatch('clearCartFoods')
+      }, () => { })
+    },
+    _initScroll () {
+      if (!this.srcoll) {
+        // eslint-disable-next-line no-new
+        new BScroll('.list-content', {
+          scrollY: true,
+          probeType: 2, // 因                      为惯性滑动不会触发
+          bounce: true // 回弹动画
+        })
+      } else {
+        this.scroll.refresh() // 刷新滚动条
+      }
     }
   }
 }
