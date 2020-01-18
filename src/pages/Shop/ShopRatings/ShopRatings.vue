@@ -81,7 +81,7 @@
                   :key="index"
                 >{{item}}</span>
               </div>
-              <div class="time">{{rate.rateTime}}</div>
+              <div class="time">{{rate.rateTime | dateFormat}}</div>
             </div>
           </li>
         </ul>
