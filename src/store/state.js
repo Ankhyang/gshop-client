@@ -11,5 +11,6 @@ export default {
 	shopInfo: {},
 	shopGoods: [],
 	shopRatings: [],
-	cartFoods: [] // 购物车食物列表
+	cartFoods: [], // 购物车食物列表
+	searchShopList: [] // 商家列表
 }
